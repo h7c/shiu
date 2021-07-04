@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>蕭若元</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.0/css/bootstrap.min.css" integrity="sha512-NZ19NrT58XPK5sXqXnnvtf9T5kLXSzGQlVZL9taZWeTBtXoN3xIfTdxbkQh6QSoJfJgpojRqMfhyqBAAEeiXcA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css" integrity="sha512-42kB9yDlYiCEfx2xVwq0q7hT4uf26FUgSIZBK8uiaEnTdShXjwr8Ip1V4xGJMg3mHkUt9nNuTDxunHF0/EgxLQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.js" integrity="sha512-bUg5gaqBVaXIJNuebamJ6uex//mjxPk8kljQTdM1SwkNrQD7pjS+PerntUSD+QRWPNJ0tq54/x4zRV8bLrLhZg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<style>
+[v-cloak] {
+  display: none;
+}
+
+body {
+  padding-top: 2rem;
+}
+
+.image {
+  cursor: pointer;
+  width: 100%;
+  height: 0;
+  padding-bottom: 56.25%;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+iframe {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+</style>
+</head>
+<body v-cloak>
+
+<header>
+  <div class="navbar navbar-dark bg-dark fixed-top shadow-sm">
+    <div class="container">
+      <a href class="navbar-brand d-flex align-items-center">
+        <strong>蕭若元</strong>
+      </a>
+      <form class="d-flex">
+        <input class="form-control me-2" type="search" placeholder="Search" v-model="query">
+      </form>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="album py-5 bg-light">
+    <div class="container">
+      <ul class="nav nav-pills mb-3">
+        <li class="nav-item" v-for="date in dates">
+          <button class="nav-link"
+            v-on:click.prevent="query = null; currentDate = date"
+            v-bind:class="{ active: !query && currentDate === date }"
+            v-text="`${date} (${posts[date].length})`"></button>
+        </li>
+        <li class="nav-item" v-if="query">
+          <button class="nav-link active"
+            v-text="`Search Results (${currentPosts.length})`"></button>
+        </li>
+      </ul>
+
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        <div class="col" v-for="post in currentPosts">
+          <div class="card shadow-sm">
+            <div class="image" v-on:click="clicked[post.id] = true"
+              v-bind:style="`background-image: url(${post.image})`">
+              <iframe v-if="clicked[post.id]"
+                v-bind:src="'https://www.youtube.com/embed/' + getYoutubeId(post.youtube)"
+                frameborder="0" allowfullscreen></iframe>
+            </div>
+            <div class="card-body">
+              <p class="card-text mb-3">
+                <a v-bind:href="post.url" class="text-decoration-none" target="_blank" v-text="post.title"></a>
+              </p>
+              <div class="d-flex flex-wrap mb-1" v-if="post.tags.length">
+                <a href v-on:click.prevent="searchTag(tag)"
+                  class="badge bg-secondary text-decoration-none text-white mb-2 me-2"
+                  v-for="tag in post.tags" v-text="tag"></a>
+              </div>
+              <div class="text-muted small" v-text="formatTime(post.published_at)"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.1.4/vue.global.prod.min.js" integrity="sha512-31OANjYZOrhBwte3yZqU2WTNyScvSGcSthuZFcezrGkHk5T+OjLMVsWdmAcnll1mdubArJZn1dvjKqwJwllztQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+(() => {
+  NProgress.start()
+  const PREFIX = 'https://h7c.github.io/shiu'
+  function getScript (src, callbackName) {
+    return new Promise((resolve, reject) => {
+      let script = document.createElement('script')
+      script.src = src
+      if (callbackName) {
+        window[callbackName] = resolve
+      } else {
+        script.onload = resolve
+      }
+      script.onerror = reject
+      document.head.appendChild(script)
+    })
+  }
+  function pad0 (i) {
+    return i < 10 ? `0${i}` : i
+  }
+  function getAllPosts () {
+    return new Promise((resolve, reject) => {
+      getScript(`${PREFIX}/index.js`, '__patreonIndex').then(files => {
+        let allPosts = {}
+        window.__patreonPosts = posts => {
+          let d = new Date(posts[0].published_at)
+          let key = `${d.getUTCFullYear()}-${pad0(d.getUTCMonth()+1)}`
+          allPosts[key] = posts.filter(post => !!post)
+          allPosts[key].sort((a, b) => new Date(b.published_at) - new Date(a.published_at))
+        }
+        Promise.all(files.filter(file => !!file).map(file => getScript(`${PREFIX}/${file}`))).then(() => {
+          resolve(allPosts)
+        }, reject)
+      })
+    })
+  }
+  Vue.createApp({
+    data () {
+      return {
+        posts: {},
+        dates: [],
+        currentDate: null,
+        clicked: {},
+        query: null
+      }
+    },
+    computed: {
+      currentPosts () {
+        let q = this.query
+        if (q) q = q.toLowerCase().trim()
+        if (!q) {
+          return this.posts[this.currentDate]
+        }
+        let tag = null
+        if (q.indexOf('tag:') === 0) {
+          tag = q.slice(4)
+        }
+        let posts = []
+        for (let d in this.posts) {
+          this.posts[d].forEach(post => {
+            if (tag) {
+              if (post.tags.some(t => t.toLowerCase() === tag)) {
+                posts.push(post)
+              }
+            } else {
+              if (post.title.toLowerCase().indexOf(q) > -1) {
+                posts.push(post)
+              }
+            }
+          })
+        }
+        posts.sort((a, b) => new Date(b.published_at) - new Date(a.published_at))
+        return posts
+      }
+    },
+    methods: {
+      formatTime (time) {
+        if (!time) return '-'
+        let d = new Date(time)
+        let ds = d.getFullYear() + '-' + pad0(d.getMonth() + 1) + '-' + pad0(d.getDate())
+        let ts = pad0(d.getHours()) + ':' + pad0(d.getMinutes()) + ':' + pad0(d.getSeconds())
+        return ds + ' ' + ts
+      },
+      getYoutubeId (url) {
+        url = url.split(/(vi\/|v=|\/v\/|youtu\.be\/|\/embed\/)/)
+        return (url[2] !== undefined) ? url[2].split(/[^0-9a-z_\-]/i)[0] : url[0]
+      },
+      searchTag (tag) {
+        this.query = `tag:${tag}`
+      }
+    },
+    created () {
+      getAllPosts().then(posts => {
+        NProgress.done()
+        this.posts = posts
+        let dates = Object.keys(posts)
+        dates.sort((a, b) => b.localeCompare(a))
+        this.dates = dates
+        this.currentDate  = dates[0]
+      }, () => {
+        NProgress.done()
+      })
+    }
+  }).mount('body')
+})()
+</script>
+
+</body>
+</html>
