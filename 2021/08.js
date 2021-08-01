@@ -1,4 +1,5 @@
 __patreonPosts([
 {"id":"54364742","published_at":"2021-08-01T03:45:01Z","title":"習大大自覺中國是戰無不勝  全因他擁有偉大光明的黨、愛護他的人民及英明領導人【中外碰碰車系列五】","tags":["2021","8月1日","August","中國","理論蕭析","美國","習近平","蕭若元"],"youtube":"https://youtu.be/pzcG1cIGDsY","url":"https://www.patreon.com/posts/xi-da-da-zi-jue-54364742","image":"https://www.patreon.com/media-u/Z0FBQUFBQmhCaGpBaDkyWUdGX3M0bGs3MnJZTVByWUxKaTBvRXRITURJQUhuRHl0S3BTWk8zUTlaUngyZUJyQW1mSG5RMU5BQTJWQkhpSDFDODFmMTBmbWM3U0VIVTVjVGJ1aFlrSV82ZEFtZFAwdXJMdUhUS2tFekUtWEphZVFfdlBuYWYyNmczV1JmeWc3VUIyQ3prU0FOWjd2dXdMdldRPT0="},
+{"id":"54369085","published_at":"2021-08-01T05:46:00Z","title":"香港有江旻憓這樣厲害的女劍手！中國女排出局 自1984年來成績最差！介紹奧運最昂貴的項目 2021-08-01","tags":["2021","8月1日","August","奧運","蕭氏新聞台","蕭若元"],"youtube":"https://youtu.be/ngnszl8yaOw","url":"https://www.patreon.com/posts/xiang-gang-you-54369085","image":"https://www.patreon.com/media-u/Z0FBQUFBQmhCalVjaWhJejdkamdHVy1jSlpjWWlMZWh2UHZHcGRoWGRaYVFKTWpzeDBXeXNReTN6ZnVfcFdrX0Y4anF4a2s5bi1RcVlwclFwQkVQSnNsZENlQl9OSVp5UHlCMXlLemROdUZFdnJkV2RBcWF1ZFFKR2pwWUhDUGp1VGxsX0xVVVFRdnQtNTEwUEJwOUFGN0hNMGRINmw2RUxBPT0="},
 null
 ])
