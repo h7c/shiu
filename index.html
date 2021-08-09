@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>蕭若元</title>
+<title>蕭若元說</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.0/css/bootstrap.min.css" integrity="sha512-NZ19NrT58XPK5sXqXnnvtf9T5kLXSzGQlVZL9taZWeTBtXoN3xIfTdxbkQh6QSoJfJgpojRqMfhyqBAAEeiXcA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css" integrity="sha512-42kB9yDlYiCEfx2xVwq0q7hT4uf26FUgSIZBK8uiaEnTdShXjwr8Ip1V4xGJMg3mHkUt9nNuTDxunHF0/EgxLQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.js" integrity="sha512-bUg5gaqBVaXIJNuebamJ6uex//mjxPk8kljQTdM1SwkNrQD7pjS+PerntUSD+QRWPNJ0tq54/x4zRV8bLrLhZg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -39,7 +39,7 @@ iframe {
   <div class="navbar navbar-dark bg-dark fixed-top shadow-sm">
     <div class="container">
       <a href class="navbar-brand d-flex align-items-center">
-        <strong>蕭若元</strong>
+        <strong>蕭若元說</strong>
       </a>
       <form class="d-flex">
         <input class="form-control me-2" type="search" placeholder="Search" v-model="query">
@@ -51,18 +51,34 @@ iframe {
 <main>
   <div class="album py-5 bg-light">
     <div class="container">
-      <ul class="nav nav-pills mb-3">
-        <li class="nav-item" v-for="date in dates">
-          <button class="nav-link"
-            v-on:click.prevent="query = null; currentDate = date"
-            v-bind:class="{ active: !query && currentDate === date }"
-            v-text="`${date} (${posts[date].length})`"></button>
-        </li>
-        <li class="nav-item" v-if="query">
-          <button class="nav-link active"
-            v-text="`Search Results (${currentPosts.length})`"></button>
-        </li>
-      </ul>
+      <div class="btn-toolbar">
+        <div class="btn-group mb-3 me-3">
+          <select class="form-select" v-model="currentDateModel">
+            <option v-if="query"
+              v-bind:value="null"
+              v-text="`Search Results (${currentPosts.length})`"></option>
+            <option v-for="date in dates"
+              v-bind:value="date"
+              v-text="`${date} (${posts[date].length})`"></option>
+          </select>
+        </div>
+        <div class="btn-group mb-3 me-3 pt-2">
+          <div class="form-check">
+            <label class="form-check-label">
+              <input class="form-check-input" type="checkbox" v-model="showNews">
+              快訊
+            </label>
+          </div>
+        </div>
+        <div class="btn-group mb-3 pt-2">
+          <div class="form-check">
+            <label class="form-check-label">
+              <input class="form-check-input" type="checkbox" v-model="showMandarin">
+              國語
+            </label>
+          </div>
+        </div>
+      </div>
 
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
         <div class="col" v-for="post in currentPosts">
@@ -135,32 +151,80 @@ iframe {
         dates: [],
         currentDate: null,
         clicked: {},
-        query: null
+        query: null,
+        showNews: window.localStorage && window.localStorage.getItem('showNews') === '1',
+        showMandarin: window.localStorage && window.localStorage.getItem('showMandarin') === '1'
+      }
+    },
+    watch: {
+      currentDate () {
+        this.query = null
+      },
+      showNews (val) {
+        if (val) {
+          window.localStorage.setItem('showNews', '1')
+        } else {
+          window.localStorage.removeItem('showNews')
+        }
+      },
+      showMandarin (val) {
+        if (val) {
+          window.localStorage.setItem('showMandarin', '1')
+        } else {
+          window.localStorage.removeItem('showMandarin')
+        }
       }
     },
     computed: {
+      currentDateModel: {
+        get () {
+          if (this.query) return null
+          return this.currentDate
+        },
+        set (val) {
+          this.currentDate = val
+        }
+      },
       currentPosts () {
         let q = this.query
         if (q) q = q.toLowerCase().trim()
         if (!q) {
-          return this.posts[this.currentDate]
+          let posts = this.posts[this.currentDate]
+          if (!posts) return null
+          return posts.filter(post => {
+            if (!this.showNews && post.title.indexOf('快訊') > -1) return false
+            if (!this.showMandarin && post.title.indexOf('國語') > -1) return false
+            return true
+          })
         }
-        let tag = null
-        if (q.indexOf('tag:') === 0) {
-          tag = q.slice(4)
-        }
+        let tags = []
+        let excludes = []
+        let includes = []
+        q = q.replace(/tag:([^\s]+)/g, (_, tag) => {
+          tags.push(tag.toLowerCase())
+          return ''
+        }).replace(/not:([^\s]+)/g, (_, exclude) => {
+          excludes.push(exclude.toLowerCase())
+          return ''
+        }).trim()
+        includes = q.split(/\s+/)
         let posts = []
         for (let d in this.posts) {
           this.posts[d].forEach(post => {
-            if (tag) {
-              if (post.tags.some(t => t.toLowerCase() === tag)) {
-                posts.push(post)
-              }
-            } else {
-              if (post.title.toLowerCase().indexOf(q) > -1) {
-                posts.push(post)
-              }
+            if (tags.length) {
+              let postTags = post.tags.map(tag => tag.toLowerCase())
+              if (!tags.every(t => postTags.indexOf(t) > -1)) return
             }
+            let title = post.title.toLowerCase()
+            if (excludes.length) {
+              if (!excludes.every(e => title.indexOf(e) === -1)) return
+            }
+            if (includes.length) {
+              if (!includes.every(e => title.indexOf(e) > -1)) return
+            }
+            if (!this.showNews && title.indexOf('快訊') > -1) return
+            if (!this.showMandarin && title.indexOf('國語') > -1) return
+            posts.push(post)
           })
         }
         posts.sort((a, b) => new Date(b.published_at) - new Date(a.published_at))
@@ -190,7 +254,7 @@ iframe {
         let dates = Object.keys(posts)
         dates.sort((a, b) => b.localeCompare(a))
         this.dates = dates
-        this.currentDate  = dates[0]
+        this.currentDate = dates[0]
       }, () => {
         NProgress.done()
       })
