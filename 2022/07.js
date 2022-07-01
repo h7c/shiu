@@ -1,4 +1,5 @@
 __patreonPosts([
 {"id":"68453556","published_at":"2022-07-01T04:00:07Z","title":"北約出最新戰略概念！指出中國欲系統性顛覆西方世界！運用假訊息挑撥離間 滲透軍事太空各大領域？！俄國更從「戰略夥伴」轉成「直接威脅」！《蕭若元：蕭氏新聞台》2022-06-30","tags":["2022","7月1日","July","蕭氏新聞台","蕭若元"],"youtube":"https://youtu.be/thMxyfvC3_U","url":"https://www.patreon.com/posts/bei-yue-chu-zui-68453556","image":"https://www.patreon.com/media-u/Z0FBQUFBQml2bkdDMTF0ajZtaVg5Mml1cy1mUWlqVFdYeVJYbHQ0SXR4RXMzYllqby1WalZuU2RqSldESEZ6OFh4eGpocVp3X3I5dWFfU2dpTk5wSG5GSWdSQUNXREhQdzR0Slc5QXlEWjBjMkx1ZnRycF9aQy1tN1Uyb1V3NGRYT3hnS1VHVVg5dmZ0cG1PVEwtcDRmVkZQRmtuRm03Y2JBPT0="},
+{"id":"68494509","published_at":"2022-07-01T06:00:06Z","title":"今年七一全港何處最多紅色旗海？以前如何掛青天白日滿地紅旗？和最出名的地方-調景嶺的故事《駐港記者專題報道》2022-07-01","tags":["2022","7月1日","July","蕭若元","駐港調查報告"],"youtube":"https://youtu.be/5BiuU3ZqVVg","url":"https://www.patreon.com/posts/jin-nian-qi-yi-68494509","image":"https://www.patreon.com/media-u/Z0FBQUFBQml2bzNmaVRsWGxtcTR2UTRYbVFzU1pWWHdKWVN2YUxoMkJ4My1MMHA0NGYzWUZfR1J1bGtTeF9SdlV0dlRHRlVMV1lJWmxLbkpUN0JWblE5ZnUtV1BGVk5NU29xUElHU0xZdFBBdTBCZVg3MGpKSmlhajZzMGhBQ1pxNk5WR3JhbWlObV9fOTFZc0ZRbDBiYVRINmU5M0pfUnlnPT0="},
 null
 ])
