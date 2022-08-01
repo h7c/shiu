@@ -1,4 +1,5 @@
 __patreonPosts([
 {"id":"69868040","published_at":"2022-08-01T03:31:00Z","title":"蠢人實錄！中國富二代是如何「坑爹」的？吉林水利廳長更因此被停職調查！在網上炫富之餘更公開父親全名？","tags":["2022","8月1日","July","蕭氏新聞台","蕭若元"],"youtube":"https://youtu.be/LdzCp5VWHUs","url":"https://www.patreon.com/posts/chun-ren-shi-lu-69868040","image":"https://www.patreon.com/media-u/Z0FBQUFBQmk1MGo1dkJMZVpBc1M5eUMwdWlqZ0RndkpXdlUtdDBWbHlkdVotYUNMZDZ4cm9DMV9CamRTT3h5VUU2VlZVMHBCcDNTNFlxYnRjdkF5VzlPSXBtY09IZEZqZVhQVGZ1NmpTcTNWWHRjN1lTU19ZeE9yLTBUbmwxOUFFZWlOLVMtdDBEck51eC1Ma05MekJETEVlajJua280N1RBPT0=#162726543_620_None"},
+{"id":"69876289","published_at":"2022-08-01T06:45:00Z","title":"中概股紛紛轉至香港上市！香港是否已喪失對大陸功用？！美中周旋兩年可能已達成協議？中概股被除牌最新名單包括阿里巴巴！由頭到尾細說整件事到底爭端為何？《蕭若元：蕭氏新聞台》2022-08-01","tags":["2022","8月1日","August","蕭氏新聞台","蕭若元"],"youtube":"https://youtu.be/vocjn1PRyTw","url":"https://www.patreon.com/posts/zhong-gai-gu-fen-69876289","image":"https://www.patreon.com/media-u/Z0FBQUFBQmk1M1p4TzU5YWlXbGJJSFpfWVFwMlpBV0Jnb3haWlJiZ1ZsYnZOSHdMajZMTlNzMVhlV1NUc2ladURxTEh1X25ZUmE1WFRzUXRMMGtfb1dQTHVtbEhCZVBRMzYtbUFxUjZoaVpuQ2xZSENlQVkyOFJKUjgybnIzM3FjU25tZW5GcjZ4U0xfTnE3LTNWRmFyYnJ0NTZqaHozUlBnPT0=#162748598_620_None"},
 null
 ])
