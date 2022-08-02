@@ -69,6 +69,14 @@ iframe {
         <div class="btn-group mb-3 me-3 pt-2">
           <div class="form-check">
             <label class="form-check-label">
+              <input class="form-check-input" type="checkbox" v-model="showHKNews">
+              《香港新聞連線》
+            </label>
+          </div>
+        </div>
+        <div class="btn-group mb-3 me-3 pt-2">
+          <div class="form-check">
+            <label class="form-check-label">
               <input class="form-check-input" type="checkbox" v-model="showNews">
               快訊
             </label>
@@ -156,6 +164,7 @@ iframe {
         currentDate: null,
         clicked: {},
         query: null,
+        showHKNews: window.localStorage && window.localStorage.getItem('showHKNews') === '1',
         showNews: window.localStorage && window.localStorage.getItem('showNews') === '1',
         showMandarin: window.localStorage && window.localStorage.getItem('showMandarin') === '1'
       }
@@ -163,6 +172,13 @@ iframe {
     watch: {
       currentDate () {
         this.query = null
+      },
+      showHKNews (val) {
+        if (val) {
+          window.localStorage.setItem('showHKNews', '1')
+        } else {
+          window.localStorage.removeItem('showHKNews')
+        }
       },
       showNews (val) {
         if (val) {
@@ -196,6 +212,7 @@ iframe {
           let posts = this.posts[this.currentDate]
           if (!posts) return null
           return posts.filter(post => {
+            if (!this.showHKNews && post.title.indexOf('香港新聞連線') > -1) return false
             if (!this.showNews && post.title.indexOf('快訊') > -1) return false
             if (!this.showMandarin && post.title.indexOf('國語') > -1) return false
             return true
@@ -226,6 +243,7 @@ iframe {
             if (includes.length) {
               if (!includes.every(e => title.indexOf(e) > -1)) return
             }
+            if (!this.showHKNews && title.indexOf('香港新聞連線') > -1) return
             if (!this.showNews && title.indexOf('快訊') > -1) return
             if (!this.showMandarin && title.indexOf('國語') > -1) return
             posts.push(post)
