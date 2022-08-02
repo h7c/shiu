@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.0/css/bootstrap.min.css" integrity="sha512-NZ19NrT58XPK5sXqXnnvtf9T5kLXSzGQlVZL9taZWeTBtXoN3xIfTdxbkQh6QSoJfJgpojRqMfhyqBAAEeiXcA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css" integrity="sha512-42kB9yDlYiCEfx2xVwq0q7hT4uf26FUgSIZBK8uiaEnTdShXjwr8Ip1V4xGJMg3mHkUt9nNuTDxunHF0/EgxLQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.js" integrity="sha512-bUg5gaqBVaXIJNuebamJ6uex//mjxPk8kljQTdM1SwkNrQD7pjS+PerntUSD+QRWPNJ0tq54/x4zRV8bLrLhZg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Darkmode.js/1.5.7/darkmode-js.min.js" integrity="sha512-y61YvXQLQM3hubnG+D7IKUAaPlfwzjkNE5XdEZPzoxFXLeeS8TJQ4aUVmmHRrkk0OMz5FmZF1Fv88A79/W7mgw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <style>
 [v-cloak] {
   display: none;
@@ -14,6 +15,7 @@
 
 body {
   padding-top: 2rem;
+  background: #202124 !important;
 }
 
 .image {
@@ -30,6 +32,43 @@ iframe {
   position: absolute;
   width: 100%;
   height: 100%;
+}
+
+.darkmode--activated,
+.bg-dark {
+  background: #000000 !important;
+}
+
+.darkmode--activated {
+  color: #fff;
+}
+
+.darkmode--activated a {
+  color: #8cbbff;
+}
+
+.darkmode-layer {
+  background: #cbcbcb !important;
+}
+
+.darkmode--activated .card {
+  background-color: #111111;
+}
+
+.darkmode--activated .form-select {
+  background-color: #111111;
+  color: #fff;
+}
+
+.darkmode--activated .form-check-input,
+.darkmode--activated .form-control {
+  background-color: #111111;
+  color: #fff;
+  border-color: #fff;
+}
+
+.darkmode-toggle {
+  z-index: 1;
 }
 </style>
 </head>
@@ -275,6 +314,11 @@ iframe {
         else if (to >= this.dates.length) to = 0
         this.currentDateModel = this.dates[to]
       }
+    },
+    mounted () {
+      new Darkmode({
+        label: '🌓'
+      }).showWidget()
     },
     created () {
       getAllPosts().then(posts => {
